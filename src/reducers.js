@@ -57,7 +57,7 @@ const memur = (state = baslangicDegerleri, action) => {
       let selectedNote = action.payload;
       let copyNotes2 = [...state.notlar];
       let resultNotesArray2 = copyNotes2.filter(
-        (note) => note.id !== selectedNote.id
+        (note) => note.id === selectedNote.id
       );
       localStorageStateYaz([...resultNotesArray2]);
       return {

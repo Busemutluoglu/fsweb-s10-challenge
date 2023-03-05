@@ -9,6 +9,7 @@ export default function Post({ item }) {
   const dispatch = useDispatch();
 
   function handleSil(e) {
+    console.log("silinecek item", item.id);
     e.preventDefault();
     // burada ilgili eylemi dispatch edin
     // sonra toast mesajı gösterin
