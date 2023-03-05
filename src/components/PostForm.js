@@ -3,6 +3,9 @@ import { useForm } from "react-hook-form";
 import { nanoid } from "nanoid";
 import { useHistory } from "react-router";
 import Gratitude from "./../assets/grForm.png";
+import { useDispatch } from "react-redux";
+import { notEkleAPI } from "../actions";
+import { toast } from "react-toastify";
 
 export default function PostForm() {
   const {
@@ -12,20 +15,24 @@ export default function PostForm() {
   } = useForm({ mode: "onChange" });
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   function onSubmit(data) {
     const yeniNot = {
       id: nanoid(),
-      date: Date(),
+      date: new Date(),
       body: Object.values(data)
         .filter((v) => v !== "")
         .join("|"),
     };
+    dispatch(notEkleAPI(yeniNot));
+    toast("Minnet Günlüğünüz Update Edildi!!");
 
     // burada ilgili eylemi dispatch edin
     // toast mesajı gösterin
     // sonra aşağıdaki satırı aktifleştirin
-    // setTimeout(() => history.push("/notlar"), 2000);
+
+    setTimeout(() => history.push("/notlar"), 2000);
   }
 
   const inputCx = "border border-zinc-300 h-9 rounded-none text-sm px-2 w-full";
@@ -36,11 +43,9 @@ export default function PostForm() {
         <img src={Gratitude} alt="" className="block object-cover h-full" />
       </div>
 
-
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-3 p-8 flex-1"
-      >
+        className="flex flex-col gap-3 p-8 flex-1">
         <h1>Minnettar hissediyorum, çünkü...</h1>
         <p className="text-xs">
           Minnettar günlüğü notları; her gün teşekkür edilen birkaç şeyi
@@ -48,8 +53,8 @@ export default function PostForm() {
           yansıtmalara kadar pek çok şeyden oluşabilir.
         </p>
         <p className="text-stone-700 my-3 text-xs">
-          Her gün belli saatlerde 3 maddeden oluşan bir liste
-          yapmak, bu alışkanlığa iyi bir başlangıç noktası sayılır.
+          Her gün belli saatlerde 3 maddeden oluşan bir liste yapmak, bu
+          alışkanlığa iyi bir başlangıç noktası sayılır.
         </p>
         <div>
           <input
@@ -76,10 +81,7 @@ export default function PostForm() {
           />
         </div>
 
-        <button
-          type="submit"
-          className="myButton"
-        >
+        <button type="submit" className="myButton">
           Ekle
         </button>
       </form>

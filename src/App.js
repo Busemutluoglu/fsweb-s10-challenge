@@ -3,8 +3,16 @@ import { Switch, Route, NavLink } from "react-router-dom";
 import PostForm from "./components/PostForm";
 import PostList from "./components/PostList";
 import Img from "./assets/gratitude.jpg";
+import { useDispatch } from "react-redux";
+import { getInitialLoad } from "./actions";
+import { useEffect } from "react";
 
 export default function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getInitialLoad());
+  }, []);
+
   return (
     <div>
       <div className="bg-white shadow mb-8">
@@ -13,22 +21,19 @@ export default function App() {
             to="/"
             exact
             className="p-4 pb-3 tracking-tighter"
-            activeClassName="text-amber-600"
-          >
+            activeClassName="text-amber-600">
             Anasayfa
           </NavLink>
           <NavLink
             to="/notlar"
             className="p-4 pb-3 tracking-tighter"
-            activeClassName="text-amber-600"
-          >
+            activeClassName="text-amber-600">
             Tüm Notlar
           </NavLink>
           <NavLink
             to="/yeni-not"
             className="p-4 pb-3 tracking-tighter"
-            activeClassName="text-amber-600"
-          >
+            activeClassName="text-amber-600">
             Yeni Not
           </NavLink>
         </nav>
