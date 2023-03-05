@@ -16,7 +16,8 @@ function localStorageStateYaz(data) {
 }
 
 function localStorageStateOku() {
-  return JSON.parse(window.localStorage.getItem(s10chLocalStorageKey));
+  console.log(JSON.parse(window.localStorage.getItem("s10ch")));
+  return JSON.parse(window.localStorage.getItem("s10ch"));
 }
 
 function baslangicNotlariniGetir(s10chLocalStorageKey) {
@@ -34,7 +35,7 @@ const memur = (state = baslangicDegerleri, action) => {
     case INITIAL_LOAD:
       return {
         ...state,
-        notlar: localStorageStateOku(),
+        notlar: baslangicNotlariniGetir(),
       };
     case NOT_EKLE:
       localStorageStateYaz([...state.notlar, action.payload]);
