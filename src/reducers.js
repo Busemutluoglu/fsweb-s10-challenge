@@ -12,19 +12,24 @@ const baslangicDegerleri = {
 };
 
 function localStorageStateYaz(data) {
+  console.log(
+    "localeyaz",
+    window.localStorage.setItem(s10chLocalStorageKey, JSON.stringify(data))
+  );
   window.localStorage.setItem(s10chLocalStorageKey, JSON.stringify(data));
 }
 
 function localStorageStateOku() {
-  console.log(JSON.parse(window.localStorage.getItem("s10ch")));
+  console.log("localden oku", JSON.parse(window.localStorage.getItem("s10ch")));
   return JSON.parse(window.localStorage.getItem("s10ch"));
 }
 
-function baslangicNotlariniGetir(s10chLocalStorageKey) {
-  const eskiNotlar = localStorage.getItem(s10chLocalStorageKey);
+function baslangicNotlariniGetir() {
+  const eskiNotlar = localStorage.getItem("s10ch");
+  console.log("eskinotlar", eskiNotlar);
 
   if (eskiNotlar) {
-    return localStorageStateOku(s10chLocalStorageKey);
+    return localStorageStateOku();
   } else {
     return baslangicDegerleri;
   }
