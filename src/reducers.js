@@ -12,24 +12,24 @@ const baslangicDegerleri = {
 };
 
 function localStorageStateYaz(data) {
-  console.log(
+  /*   console.log(
     "localeyaz",
     window.localStorage.setItem(s10chLocalStorageKey, JSON.stringify(data))
-  );
-  window.localStorage.setItem(s10chLocalStorageKey, JSON.stringify(data));
+  ); */
+  localStorage.setItem(s10chLocalStorageKey, JSON.stringify(data));
 }
 
-function localStorageStateOku() {
-  console.log("localden oku", JSON.parse(window.localStorage.getItem("s10ch")));
-  return JSON.parse(window.localStorage.getItem("s10ch"));
+function localStorageStateOku(key) {
+  console.log("localden oku", JSON.parse(localStorage.getItem(key)));
+  return JSON.parse(localStorage.getItem(key));
 }
 
-function baslangicNotlariniGetir() {
-  const eskiNotlar = localStorage.getItem("s10ch");
-  console.log("eskinotlar", eskiNotlar);
+function baslangicNotlariniGetir(key) {
+  const eskiNotlar = localStorage.getItem(key);
+  console.log("eskinot", eskiNotlar);
 
   if (eskiNotlar) {
-    return localStorageStateOku();
+    return localStorageStateOku(key);
   } else {
     return baslangicDegerleri;
   }
@@ -40,30 +40,37 @@ const memur = (state = baslangicDegerleri, action) => {
     case INITIAL_LOAD:
       return {
         ...state,
-        notlar: baslangicNotlariniGetir(),
+        notlar: baslangicNotlariniGetir(s10chLocalStorageKey).notlar,
       };
     case NOT_EKLE:
-      localStorageStateYaz([...state.notlar, action.payload]);
-
       let newNote = action.payload;
       let copyNotes = [...state.notlar];
       let resultNotesArray = [...copyNotes, newNote];
-      return {
+      let UpdatedState = {
         ...state,
         notlar: [...resultNotesArray],
       };
+      localStorageStateYaz(UpdatedState);
+
+      return UpdatedState;
 
     case NOT_SIL:
       let selectedNote = action.payload;
       let copyNotes2 = [...state.notlar];
       let resultNotesArray2 = copyNotes2.filter(
-        (note) => note.id === selectedNote.id
+        (note) => note.id !== selectedNote
       );
-      localStorageStateYaz([...resultNotesArray2]);
-      return {
+      console.log("casenotsil", action.payload, copyNotes2);
+      /*  localStorageStateYaz([...resultNotesArray2]); */
+      console.log("locali oku", resultNotesArray2);
+
+      let UpdatedState2 = {
         ...state,
-        notlar: [...resultNotesArray2],
+        notlar: resultNotesArray2,
       };
+      localStorageStateYaz(UpdatedState2);
+
+      return UpdatedState2;
 
     default:
       return state;

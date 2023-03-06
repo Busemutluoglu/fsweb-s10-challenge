@@ -22,7 +22,7 @@ export const notEkleAPI = (yeniNot) => (dispatch) => {
       if (res.status === 200) {
         console.log(res.status);
         dispatch(notEkle(res.data.json));
-        console.log("notEkleAPI", res.data);
+        console.log("notEkleAPI", res.data.json);
         // res.data objesi içerisinden ihtiyaç duyduğunuz değeri bulun ve oluşturduğunuz notEkle ile dispatch edin
       }
     })
@@ -30,12 +30,13 @@ export const notEkleAPI = (yeniNot) => (dispatch) => {
 };
 
 export const notSilAPI = (id) => (dispatch) => {
-  console.log(id);
+  console.log("silinecek id", id);
   axios
     .delete("https://httpbin.org/anything", { data: id })
     .then((res) => {
       if (res.status === 200) {
         dispatch(notSil(res.data.data));
+        console.log("notsil'in parametresi", res.data.data);
         // res.data objesi içerisinden ihtiyaç duyduğunuz değeri bulun ve oluşturduğunuz notSil ile dispatch edin
       }
     })
